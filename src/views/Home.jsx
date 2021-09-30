@@ -3,8 +3,6 @@ import React from "react";
 export default function Home() {
   return (
     <div>
-      <main className="app-content">
-        <div className="app-page">
           <div>
             <div className="page-title">
               <h3>Счет</h3>
@@ -55,8 +53,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-      </main>
 
       <div className="fixed-action-btn">
         <a className="btn-floating btn-large blue" href=" ">

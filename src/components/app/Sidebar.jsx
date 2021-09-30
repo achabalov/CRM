@@ -1,32 +1,33 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-export default function Sidebar() {
+export default function Sidebar({show}) {
   return (
-    <ul className="sidenav app-sidenav open">
+    <ul className={`sidenav app-sidenav ${show ? 'open': 'close full'}`}>
       <li>
-        <a href=" " className="waves-effect waves-orange pointer">
+        <NavLink to="/detail-recored" activeClassName='orange lighten-1' className="waves-effect waves-orange pointer">
           Счет
-        </a>
+        </NavLink>
       </li>
       <li>
-        <a href=" " className="waves-effect waves-orange pointer">
+        <NavLink to="/history" activeClassName='orange lighten-1' className="waves-effect waves-orange pointer">
           История
-        </a>
+        </NavLink>
       </li>
       <li>
-        <a href=" " className="waves-effect waves-orange pointer">
+        <NavLink to="/planning" activeClassName='orange lighten-1' className="waves-effect waves-orange pointer">
           Планирование
-        </a>
+        </NavLink>
       </li>
       <li>
-        <a href=" " className="waves-effect waves-orange pointer">
+        <NavLink to="/record" activeClassName='orange lighten-1' className="waves-effect waves-orange pointer">
           Новая запись
-        </a>
+        </NavLink>
       </li>
       <li>
-        <a href=" " className="waves-effect waves-orange pointer">
+        <NavLink to="categories" activeClassName='orange lighten-1' className="waves-effect waves-orange pointer">
           Категории
-        </a>
+        </NavLink>
       </li>
     </ul>
   );

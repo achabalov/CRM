@@ -1,11 +1,15 @@
 import React from "react";
 
-export default function Navbar() {
+export default function Navbar({setShow, show}) {
+
   return (
     <nav className="navbar orange lighten-1">
       <div className="nav-wrapper">
         <div className="navbar-left">
-          <a href=" ">
+          <a href=" " onClick={(e) => {
+            e.preventDefault()
+            setShow(prev=> !prev)
+          }}>
             <i className="material-icons black-text">dehaze</i>
           </a>
           <span className="black-text">12.12.12</span>

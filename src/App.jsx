@@ -1,10 +1,7 @@
 import React from "react";
-import AppRouter from "./routes/AppRouter";
+import { AppRouterAuth, AppRouterMain } from "./routes/AppRouter";
 
 export default function App() {
-  return (
-    <div className="app-main-layout">
-        <AppRouter />
-    </div>
-  );
+  const isAuth = true;
+  return <>{isAuth ? <AppRouterMain /> : <AppRouterAuth />}</>;
 }
