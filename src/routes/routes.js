@@ -8,6 +8,7 @@ import Record from "../views/Record";
 import Categories from "../views/Categories";
 import Login from "../views/Login";
 import Register from "../views/Register";
+import Profile from "../views/Profile";
 
 // export const publicRoutes = [
 //   { path: "/", component: MainLayout, exact: true },
@@ -28,4 +29,6 @@ export const pageRoutes = [
   { path: "/", component: Home, exact: true },
   { path: "/planning", component: Planning, exact: true },
   { path: "/record", component: Record, exact: true },
+  { path: "/profile", component: Profile, exact: true },
+  
 ]

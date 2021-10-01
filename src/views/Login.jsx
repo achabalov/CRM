@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Auth } from "../App";
 
 export default function Login() {
+  const setAuth = useContext(Auth);
   return (
     <form className="card auth-card">
       <div className="card-content">
@@ -21,6 +23,10 @@ export default function Login() {
           <button
             className="btn waves-effect waves-light auth-submit"
             type="submit"
+            onClick={(e)=> {
+              e.preventDefault();
+              setAuth(prev => !prev)
+            }}
           >
             Войти
             <i className="material-icons right">send</i>
