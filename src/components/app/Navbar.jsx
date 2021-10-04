@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { filter } from "../../pureFunction/Filter";
 import { NavLink, Redirect } from "react-router-dom";
 import { Auth } from "../../App";
 
@@ -12,10 +13,11 @@ export default function Navbar({setShow}) {
     setAuth(prev=> !prev)
   }
   
-  const [date, setDate] = useState(new Date().toString());
+  const [date, setDate] = useState(filter(new Date()));
   useEffect(() => {
     const interval = setInterval(()=> {
-      setDate(new Date().toString())
+      setDate(filter(new Date()))
+      // filter(date)
     }, 1000)
     const dropdown = window?.M?.Dropdown.init(ref.current)
     return () => {

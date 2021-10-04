@@ -1,21 +1,32 @@
 import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { Auth } from "../App";
+import { useInput } from "../hooks/hooks";
 
 export default function Login() {
+  
   const setAuth = useContext(Auth);
+  
+  const email = useInput('', {isEmpty: true, email: 'email'})
+  const password = useInput('', {isEmpty: true, minLength: 5})
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+  }
+  console.log(email.valueError);
   return (
-    <form className="card auth-card">
+    <form className="card auth-card" onSubmit={(e) => submitHandler(e)}>
       <div className="card-content">
         <span className="card-title">Домашняя бухгалтерия</span>
         <div className="input-field">
-          <input id="email" type="text" className="validate" />
+          <input value={email.value} onChange={email.onChange} onBlur={email.onBlur} id="email" type="text" className="validate" />
           <label htmlFor="email">Email</label>
-          <small className="helper-text invalid">Email</small>
+          <small className="helper-text invalid">{(email.isDirty && email.isEmpty)? 'Поле не может быть пустым' : 'email'}</small>
         </div>
         <div className="input-field">
-          <input id="password" type="password" className="validate" />
+          <input value={password.value} onChange={password.onChange} onBlur={password.onBlur} id="password" type="password" className="validate" />
           <label htmlFor="password">Пароль</label>
-          <small className="helper-text invalid">Password</small>
+          <small className="helper-text invalid"></small>
         </div>
       </div>
       <div className="card-action">
@@ -25,7 +36,7 @@ export default function Login() {
             type="submit"
             onClick={(e)=> {
               e.preventDefault();
-              setAuth(prev => !prev)
+              // setAuth(prev => !prev)
             }}
           >
             Войти
@@ -35,7 +46,7 @@ export default function Login() {
 
         <p className="center">
           Нет аккаунта?
-          <a href="/">Зарегистрироваться</a>
+          <NavLink to="/registration">Зарегистрироваться</NavLink>
         </p>
       </div>
     </form>

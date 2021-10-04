@@ -19,7 +19,7 @@ import Profile from "../views/Profile";
 
 export const privateRoutes = [
   { path: "/login", component: Login, exact: true },
-  { path: "/register", component: Register, exact: true },
+  { path: "/registration", component: Register, exact: true },
 ]
 
 export const pageRoutes = [
