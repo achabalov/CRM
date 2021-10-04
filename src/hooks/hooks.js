@@ -25,7 +25,7 @@ export const useInput = (initialValue, validations) => {
 export const useValidation = (value, validations) => {
 
     const [isEmpty, setIsEmpty] = useState(true);
-    const [minLengthError, setMinLengthError] = useState(false);
+    const [lengthError, setLengthError] = useState(false);
     const [error, setError] = useState(`Поле не может быть пустым`)
     
     useEffect(()=> {
@@ -42,8 +42,9 @@ export const useValidation = (value, validations) => {
                 case 'isEmpty':
                     value ? setIsEmpty(false) : setIsEmpty(true);
                     break;
-                case 'minLength': 
-                    value.length < validation[validation] ? setMinLengthError(true) : setMinLengthError(false);
+                case 'length':
+                    value.length < validations[validation].min || value.length > validations[validation].max ? setLengthError(true) : setLengthError(false);
+                    break;
                 default: return;
             }
         }
@@ -51,7 +52,7 @@ export const useValidation = (value, validations) => {
 
     return {
         isEmpty,
-        minLengthError,
+        lengthError,
         error
     }
 }
