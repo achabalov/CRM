@@ -1,72 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [dirtyEmail, setDirtyEmail] = useState(false);
-  const [dirtyPassword, setDirtyPassword] = useState(false)
-  const [emailError, setEmailError] = useState('Email не может быть пустым');
-  const [passwordError, setPasswordError] = useState('Пароль не может быть пустым')
-  const [valid, setValid] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+    watch
+  } = useForm({mode: 'onChange'});
 
-  useEffect(()=> {
-    if(emailError || passwordError) {
-      setValid(false)
-    } else {
-      setValid(true)
-    }
-  }, [emailError, passwordError])
+  const email = watch('email')
+  const password = watch('password');
+  console.log(email, password);
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!re.test(String(e.target.value).toLowerCase())) {
-      setEmailError('Некорректный email');
-    } else {
-      setEmailError('')
-    }
-  }
-
-  const passwordHandler = (e) => {
-    setPassword(e.target.value)
-    if(e.target.value.length < 5 || e.target.value.length > 16) {
-      setPasswordError('Пароль не может быть меньше 6 и больше 15')
-      if(!e.target.value) {
-        setPasswordError('Пароль не может быть пустым');
-        }
-    } else {
-      setPasswordError('')
-    }
-  }
-
-  const blurHandler = (e) => {
-    switch(e.target.id) {
-      case 'email': {
-        setDirtyEmail(true);
-        break;
-      }
-      case 'password': {
-        setDirtyPassword(true)
-        break;
-      }
-      default: return
-  }
-}
-
-return (
+  return (
     <div>
-      <form className="card auth-card">
+      <form
+        className="card auth-card"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="card-content">
           <span className="card-title">Домашняя бухгалтерия</span>
           <div className="input-field">
-            <input value={email} onChange={e => emailHandler(e)} onBlur={blurHandler} id="email" type="text" />
+            <input
+              {...register("email", {
+                required: true,
+                maxLength: 20,
+                pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              })}
+              id="email"
+              type="text"
+            />
             <label htmlFor="email">Email</label>
-            <small className="helper-text invalid">{dirtyEmail ? emailError : 'Email'}</small>
+            <small className="helper-text invalid">
+              {errors?.email?.type === 'required' && "Email не должен быть пустым"}
+              {errors?.email?.type === 'pattern' && "Введите корректный email"}
+              {errors?.email?.type === 'maxLength' && "Слишком длинный email"}
+              {errors?.email?.type === undefined && 'Email'}
+              </small>
           </div>
           <div className="input-field">
-            <input value={password} onChange={e=> passwordHandler(e)} onBlur={blurHandler}  id="password" type="password" className="validate" />
+            <input 
+            {...register('password', 
+            {required: true,
+             minLength: 6, 
+             maxLength: 15})} id="password" type="password" className="validate" />
             <label htmlFor="password">Пароль</label>
-            <small className="helper-text invalid">{dirtyPassword ? passwordError : 'Password'}</small>
+            <small className="helper-text invalid">
+              {(errors?.password?.type === 'minLength' ||
+              errors?.password?.type === 'maxLength') &&
+               'Пароль не сооветствует длине'}
+               {errors?.password?.type === 'required' && "Поле не может быть пустым"}
+               {errors?.password?.type === undefined && 'password'}
+               </small>
           </div>
           <div className="input-field">
             <input id="name" type="text" className="validate" />
@@ -85,7 +74,7 @@ return (
             <button
               className="btn waves-effect waves-light auth-submit"
               type="submit"
-              disabled={!valid}
+              disabled={!isDirty || !isValid}
             >
               Зарегистрироваться
               <i className="material-icons right">send</i>
