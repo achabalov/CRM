@@ -1,12 +1,16 @@
-import React from 'react'
-import { Redirect } from 'react-router'
-import AppRouter from './routes/AppRouter'
+import React, { createContext, useState } from "react";
+import { AppRouterAuth, AppRouterMain } from "./routes/AppRouter";
+
+export const Auth = createContext(null);
 
 export default function App() {
+  const [auth, setAuth] = useState(true);
+
   return (
-    <div>
-      <Redirect to='/' />
-      <AppRouter />
-    </div>
-  )
+    <>
+      <Auth.Provider value={setAuth}>
+        {auth ? <AppRouterMain setAuth={setAuth} auth={auth}/> : <AppRouterAuth />}
+      </Auth.Provider>
+    </>
+  );
 }
